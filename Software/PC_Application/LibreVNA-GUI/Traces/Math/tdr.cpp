@@ -282,7 +282,7 @@ void TDRThread::run()
             continue;
         }
         auto inputData = tdr.input->getData();
-        if(!inputData.size()) {
+        if(inputData.size() < 2) {
             // empty input data, clear output data
             tdr.clearOutput();
             tdr.warning("Not enough input samples");
@@ -307,7 +307,7 @@ void TDRThread::run()
             frequencyDomain.resize(2 * steps + 1);
             // copy frequencies, use the flipped conjugate for negative part
             for(unsigned int i = 1;i<=steps;i++) {
-                auto S = tdr.input->getInterpolatedSample(stepSize * i).y;
+                auto S = TraceMath::interpolatedSample(inputData, stepSize * i);
                 frequencyDomain[steps - i] = conj(S);
                 frequencyDomain[steps + i] = S;
             }

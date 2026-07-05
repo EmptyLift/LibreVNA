@@ -74,7 +74,7 @@ __ALIGN_BEGIN uint8_t USBD_CfgFSDesc[USB_CONFIG_DESC_SIZ] __ALIGN_END =
   0x01,                          /*bConfigurationValue: Configuration value*/
   0x00,                          /*iConfiguration */
   0xC0,                          /*bmAttributes: bus powered and Supports Remote Wakeup */
-  0x32,                          /*MaxPower 100 mA: this current is used for detecting Vbus*/
+  0xFA,                          /*MaxPower 500 mA: this current is used for detecting Vbus*/
   /* Interface */
   0x09,                     /* bLength */
   USB_DESC_TYPE_INTERFACE,  /* bDescriptorType: */

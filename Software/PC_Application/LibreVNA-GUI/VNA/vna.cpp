@@ -185,7 +185,9 @@ VNA::VNA(AppWindow *window, QString name)
     // value from within the NewDatapoint slot to prevent possible re-entrancy.
     connect(this, &VNA::calibrationMeasurementPercentage, calDialog, [=](int percent) {
         if(calMeasuring || percent == 100) {
-            calDialog->setValue(percent);
+            if(window->showGUI()) {
+                calDialog->setValue(percent);
+            }
         }
     }, Qt::QueuedConnection);
 

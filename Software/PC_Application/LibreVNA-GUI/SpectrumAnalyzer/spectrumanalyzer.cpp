@@ -563,7 +563,9 @@ void SpectrumAnalyzer::NewDatapoint(DeviceDriver::SAMeasurement m)
             }
         }
         int percentage = (((average.currentSweep() - 1) * 100) + (m_avg.pointNum + 1) * 100 / DeviceDriver::SApoints()) / averages;
-        normalize.dialog.setValue(percentage);
+        if(window->showGUI()) {
+            normalize.dialog.setValue(percentage);
+        }
     }
 
     if(normalize.active) {
@@ -819,14 +821,16 @@ void SpectrumAnalyzer::MeasureNormalization()
         normalize.portCorrection[m] = {};
     }
     normalize.measuring = true;
-    normalize.dialog.setLabelText("Taking normalization measurement...");
-    normalize.dialog.setCancelButtonText("Abort");
-    normalize.dialog.setWindowTitle("Normalization");
-    normalize.dialog.setValue(0);
-    normalize.dialog.setWindowModality(Qt::ApplicationModal);
-    // always show the dialog
-    normalize.dialog.setMinimumDuration(0);
-    connect(&normalize.dialog, &QProgressDialog::canceled, this, &SpectrumAnalyzer::AbortNormalization);
+    if(window->showGUI()) {
+        normalize.dialog.setLabelText("Taking normalization measurement...");
+        normalize.dialog.setCancelButtonText("Abort");
+        normalize.dialog.setWindowTitle("Normalization");
+        normalize.dialog.setValue(0);
+        normalize.dialog.setWindowModality(Qt::ApplicationModal);
+        // always show the dialog
+        normalize.dialog.setMinimumDuration(0);
+        connect(&normalize.dialog, &QProgressDialog::canceled, this, &SpectrumAnalyzer::AbortNormalization);
+    }
     // trigger beginning of next sweep
     SettingsChanged();
 }
